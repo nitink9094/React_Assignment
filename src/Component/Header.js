@@ -8,26 +8,23 @@ import { useHistory } from "react-router-dom";
 const Header = () => {
     const history = useHistory();
     const [isValidUser, setIsValidUser] = useState(false);
-
+    console.log("Inside Header")
     useEffect(() => {
-        console.log('header componenet')
-        setTimeout(() => {
-
-            console.log('header componenet In');
-            localStorage.getItem('isLoggedIn') ? setIsValidUser((prevIsValidUser) => true) : history.push("/login");
-        }, 2000);
-        
-    }, [isValidUser]);
+        let val = localStorage.getItem('isLoggedIn');
+        console.log(val)
+        val ? setIsValidUser(true) : history.push("/login");
+        console.log(val)
+    }, [history]);
 
     const logoutUser = () => {
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('LoggedInUser');
         // history.push("/login");   
         setTimeout(() => {
-
-            console.log('logout componenet In'); 
+            console.log('logout component In Header'); 
             setIsValidUser(false);
-        }, 2000);     
+            history.push("/login");
+        }, 500);     
     }
 
     return (

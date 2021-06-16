@@ -2,6 +2,7 @@ import React, { Component, useEffect, useState } from 'react';
 import { Row, Col } from 'antd';
 import User from './Users';
 import { useHistory } from "react-router-dom";
+import Header from './Header';
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -43,17 +44,23 @@ const UserList = () => {
   };
   if (users.length === 0) {
     return (
+      <>
+      <Header></Header>
       <div>
         <div className="spinner">
           <div className="bounce1" />
           <div className="bounce2" />
           <div className="bounce3" />
         </div>
-      </div>
+        </div>
+        </>
     );
   } else {
     console.log('--- users 111 ', users);
     return (
+      <>
+      <Header></Header>
+
       <Row>
         {
 
@@ -64,7 +71,8 @@ const UserList = () => {
             </Col>
           ))
         }
-      </Row>
+        </Row>
+        </>
     )
   };
 }
