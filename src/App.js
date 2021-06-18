@@ -5,19 +5,16 @@ import './App.css';
 import User from './Component/Users';
 import Home from './Component/Home';
 import Login from './Component/Login';
-import Header from './Component/Header';
 import UserList from './Component/UserList';
 
 class App extends Component {
-  // state = {
-  //   users: [],
-  // };
-
-  state = {
-    loggedIn : false
+  constructor(props) {
+    super(props);
+    this.state = { loggedIn: false };
   }
+
 componentDidMount() {
-  this.state.loggedIn = localStorage.getItem('isLoggedIn') ? true : false;
+  this.setState({ loggedIn: localStorage.getItem('isLoggedIn') ? true : false });
 }
 render() {
     // const { users } = this.state;
@@ -37,7 +34,7 @@ render() {
     return (
       <>
         <Router>
-           <Header></Header>
+           
           <Route exact path='/' component={Home}></Route>
           {/* <Route exact path='/home' component={Home}></Route> */}
           <Route exact path='/Login' component={Login}></Route>

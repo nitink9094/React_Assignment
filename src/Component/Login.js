@@ -15,7 +15,7 @@ const Login = () => {
     if (username === 'admin' && password === 'admin') {
       localStorage.setItem('isLoggedIn', 'Y');
       localStorage.setItem('LoggedInUser', 'admin');
-      history.push("/userList");
+      history.replace("/userList");
     }
     else {
       setError('Invalid Credentials');
