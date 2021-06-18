@@ -1,8 +1,7 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Row, Col, Button, Alert } from 'antd';
 import { useHistory } from "react-router-dom";
 import '../css/Login.css'
-//https://www.youtube.com/watch?v=MqczHS3Z2bc
 const Login = () => {
   const history = useHistory();
   const [username, setUsername] = useState();
@@ -15,15 +14,22 @@ const Login = () => {
     if (username === 'admin' && password === 'admin') {
       localStorage.setItem('isLoggedIn', 'Y');
       localStorage.setItem('LoggedInUser', 'admin');
-      history.replace("/userList");
+      fetch(`http://localhost:3001/jwt/${username}`)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            localStorage.setItem('token', result.token);
+            history.replace("/userList");
+          },
+          (error) => {
+            setError('Invalid Credentials');
+          }
+        )
+      
     }
     else {
-      setError('Invalid Credentials');
+      setError('Please enter valid Credentials');
     }
-    // const oktaAuth = new OktaAuth({ url: baseUrl, issuer: issuer });
-    // oktaAuth.signIn({ username, password })
-    //   .then(res => setSessionToken(res.sessionToken))
-    //   .catch(err => setError(err));
   };
 
   const layout = {
@@ -45,6 +51,7 @@ const Login = () => {
 
   const onFinishFailed = (errorInfo) => {
     form.scrollToField(errorInfo.errorFields[0].name);
+    setError(errorInfo.errorFields[0].name);
     console.log('- errorInfo :', errorInfo)
   };
 
@@ -56,7 +63,7 @@ const Login = () => {
   const errorAlert = error ? <Row>
     <Col span="8"></Col>
     <Col span="8">
-      <Alert message="Authentication Failed" type="warning"></Alert>
+      <Alert message={error} type="warning"></Alert>
     </Col>
   </Row> : ''
 
@@ -97,7 +104,7 @@ const Login = () => {
         <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit" onClick={handleSubmit}>
             Login
-                    </Button>
+           </Button>
         </Form.Item>
 
         {errorAlert}

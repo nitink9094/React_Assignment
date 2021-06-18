@@ -9,7 +9,7 @@ const UserList = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (localStorage.getItem('isLoggedIn') === 'Y') {
+    if (localStorage.getItem('token')  && localStorage.getItem('token') !== '') {
       setTimeout(() => {
         fetch('https://jsonplaceholder.typicode.com/users')
           .then(res => res.json())
