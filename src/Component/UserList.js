@@ -17,7 +17,7 @@ const UserList = () => {
         fetch('http://localhost:3001/users', { 
           method: 'GET',
           headers : {
-              //Authorization: `Bearer ${localStorage.getItem('token')}`,
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
             }
           })
           .then(res => res.json())
