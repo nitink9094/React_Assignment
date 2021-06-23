@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Form, Input, Row, Col, Button, Alert } from 'antd';
 import { useHistory } from "react-router-dom";
-import '../css/Login.css'
+import '../css/Login.css';
+import axios from 'axios';
+
 const Login = () => {
   const history = useHistory();
   const [username, setUsername] = useState();
@@ -12,20 +14,37 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (username === 'admin' && password === 'admin') {
-      localStorage.setItem('isLoggedIn', 'Y');
-      localStorage.setItem('LoggedInUser', 'admin');
-      fetch(`http://localhost:3001/jwt/${username}`)
-        .then(res => res.json())
-        .then(
-          (result) => {
-            localStorage.setItem('token', result.token);
-            history.replace("/userList");
-          },
-          (error) => {
-            setError('Invalid Credentials');
-          }
-        )
-      
+      const obj = { username: username, password: password }
+      axios.post('http://localhost:3001/login', { username: username, password: password })
+      .then((result) => {
+          console.log('----- result :', result.data);
+          localStorage.setItem('isLoggedIn', 'Y');
+          localStorage.setItem('LoggedInUser', 'admin');
+          localStorage.setItem('token', result.data.token);
+          history.replace("/userList");
+      }, (error) => {
+        console.log(error);
+        setError('Invalid Credentials');
+      });
+
+      // fetch('http://localhost:3001/login', {
+      //   method: 'POST',
+      //   body: JSON.stringify(obj),
+      //   headers: {"Content-type": "application/json;"}
+      // })
+      //   .then(res => res.json())
+      //   .then(
+      //     (result) => {
+      //       localStorage.setItem('isLoggedIn', 'Y');
+      //       localStorage.setItem('LoggedInUser', 'admin');
+      //       localStorage.setItem('token', result.token);
+      //       history.replace("/userList");
+      //     },
+      //     (error) => {
+      //       console.log('----error : ',error);
+      //       setError('Invalid Credentials');
+      //     }
+      //   )      
     }
     else {
       setError('Please enter valid Credentials');
@@ -89,6 +108,7 @@ const Login = () => {
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
           <Input />
+          
         </Form.Item>
 
         <Form.Item

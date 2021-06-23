@@ -1,24 +1,35 @@
 import React, { Component, useEffect, useState } from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, Alert } from 'antd';
 import User from './Users';
 import { useHistory } from "react-router-dom";
 import Header from './Header';
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
   const history = useHistory();
 
   useEffect(() => {
+    setIsLoading(true);
     if (localStorage.getItem('token')  && localStorage.getItem('token') !== '') {
       setTimeout(() => {
-        fetch('https://jsonplaceholder.typicode.com/users')
+        fetch('http://localhost:3001/users', { 
+          method: 'GET',
+          headers : {
+              //Authorization: `Bearer ${localStorage.getItem('token')}`,
+            }
+          })
           .then(res => res.json())
           .then(
             (result) => {
+              console.log('--------- result :', result);
               setUsers(result);
+              setIsLoading(false);
             },
             (error) => {
               console.log(error);
+              setError('Not valid request')
             }
           )
       }, 2000);
@@ -42,7 +53,15 @@ const UserList = () => {
     });
     setUsers(updatedUsers);
   };
-  if (users.length === 0) {
+
+  const errorAlert = error ? <Row>
+    <Col span="8"></Col>
+    <Col span="8">
+      <Alert message={error} type="warning"></Alert>
+    </Col>
+  </Row> : ''
+
+  if (isLoading) {
     return (
       <>
       <Header></Header>
@@ -71,6 +90,9 @@ const UserList = () => {
             </Col>
           ))
         }
+        </Row>
+        <Row>
+        {errorAlert}
         </Row>
         </>
     )
