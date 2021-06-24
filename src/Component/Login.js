@@ -13,7 +13,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (username === 'admin' && password === 'admin') {
+
       const obj = { username: username, password: password }
       axios.post('http://localhost:3001/login', { username: username, password: password })
       .then((result) => {
@@ -44,11 +44,8 @@ const Login = () => {
       //       console.log('----error : ',error);
       //       setError('Invalid Credentials');
       //     }
-      //   )      
-    }
-    else {
-      setError('Please enter valid Credentials');
-    }
+      //   )          
+  
   };
 
   const layout = {
