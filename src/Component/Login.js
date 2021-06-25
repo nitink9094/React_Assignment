@@ -90,6 +90,7 @@ const Login = () => {
         onSubmit={handleSubmit}
         onFinishFailed={onFinishFailed}
         form={form}
+        id="login"
       >
 
         <Row>

@@ -1,18 +1,14 @@
 import React from 'react';
 import Enzyme, { render, shallow  } from 'enzyme';
 import Login from '../Component/Login'
-import Adapter from 'enzyme-adapter-react-16'
+import Adapter from "enzyme-adapter-react-17-updated";
 
 Enzyme.configure({ adapter: new Adapter() })
 
 describe('<Login />', () => {
-    it('renders <Login /> components with Input control', () => {
-      //const wrapper = shallow(<Login />);
+    it('renders <Login /> components with Input control', () => {     
       const component = shallow(<Login />);
-      const form = component.find('Username');
-     
-      expect(component.state('input')).toBeDefined();
-      //expect(wrapper.find('[name="Username"]')).toBe(1);
+      expect(component.find('#login')).toHaveLength(1);
     });
   
   });
