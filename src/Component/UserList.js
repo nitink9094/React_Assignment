@@ -14,7 +14,7 @@ const UserList = () => {
     setIsLoading(true);
     if (localStorage.getItem('token')  && localStorage.getItem('token') !== '') {
       setTimeout(() => {
-        fetch('http://localhost:3001/users', { 
+        fetch('https://hbauth.herokuapp.com/users', { 
           method: 'GET',
           headers : {
               Authorization: `Bearer ${localStorage.getItem('token')}`,

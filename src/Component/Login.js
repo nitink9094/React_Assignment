@@ -1,51 +1,63 @@
-import React, { useState } from 'react';
-import { Form, Input, Row, Col, Button, Alert } from 'antd';
+import React, { useState } from "react";
+import { Form, Input, Row, Col, Button, Alert } from "antd";
 import { useHistory } from "react-router-dom";
-import '../css/Login.css';
-import axios from 'axios';
+import "../css/Login.css";
+import axios from "axios";
 
 const Login = () => {
   const history = useHistory();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  const [error, setError] = useState();
+  const [error, setError] = useState(false);
   const [form] = Form.useForm();
 
   const handleSubmit = (e) => {
+    setError(true);
     e.preventDefault();
+    const obj = { username: username, password: password };
+    axios
+      .post("https://hbauth.herokuapp.com/login", {
+        username: username,
+        password: password,
+      })
+      .then(
+        (result) => {
+          if (Object.keys(result.data).length === 0) {
+            setError(true);
+            console.log(error)
+          } else {
+            console.log("----- result :", result.data);
+            localStorage.setItem("isLoggedIn", "Y");
+            localStorage.setItem("LoggedInUser", "admin");
+            localStorage.setItem("token", result.data.token);
+            history.replace("/userList");
+          }
+   
+        },
+        (error) => {
+          console.log(error);
+          setError("Invalid Credentials");
+        }
+      );
 
-      const obj = { username: username, password: password }
-      axios.post('http://localhost:3001/login', { username: username, password: password })
-      .then((result) => {
-          console.log('----- result :', result.data);
-          localStorage.setItem('isLoggedIn', 'Y');
-          localStorage.setItem('LoggedInUser', 'admin');
-          localStorage.setItem('token', result.data.token);
-          history.replace("/userList");
-      }, (error) => {
-        console.log(error);
-        setError('Invalid Credentials');
-      });
-
-      // fetch('http://localhost:3001/login', {
-      //   method: 'POST',
-      //   body: JSON.stringify(obj),
-      //   headers: {"Content-type": "application/json;"}
-      // })
-      //   .then(res => res.json())
-      //   .then(
-      //     (result) => {
-      //       localStorage.setItem('isLoggedIn', 'Y');
-      //       localStorage.setItem('LoggedInUser', 'admin');
-      //       localStorage.setItem('token', result.token);
-      //       history.replace("/userList");
-      //     },
-      //     (error) => {
-      //       console.log('----error : ',error);
-      //       setError('Invalid Credentials');
-      //     }
-      //   )          
-  
+    // fetch('http://localhost:3001/login', {
+    //   method: 'POST',
+    //   body: JSON.stringify(obj),
+    //   headers: {"Content-type": "application/json;"}
+    // })
+    //   .then(res => res.json())
+    //   .then(
+    //     (result) => {
+    //       localStorage.setItem('isLoggedIn', 'Y');
+    //       localStorage.setItem('LoggedInUser', 'admin');
+    //       localStorage.setItem('token', result.token);
+    //       history.replace("/userList");
+    //     },
+    //     (error) => {
+    //       console.log('----error : ',error);
+    //       setError('Invalid Credentials');
+    //     }
+    //   )
   };
 
   const layout = {
@@ -68,20 +80,24 @@ const Login = () => {
   const onFinishFailed = (errorInfo) => {
     form.scrollToField(errorInfo.errorFields[0].name);
     setError(errorInfo.errorFields[0].name);
-    console.log('- errorInfo :', errorInfo)
+    console.log("- errorInfo :", errorInfo);
   };
 
   React.useEffect(() => {
-    form.setFieldsValue({ username: '', password: '' });
-
+    form.setFieldsValue({ username: "", password: "" });
   }, []);
 
-  const errorAlert = error ? <Row>
-    <Col span="8"></Col>
-    <Col span="8">
-      <Alert message={error} type="warning"></Alert>
-    </Col>
-  </Row> : ''
+  const errorAlert =
+    error ? (
+      <Row>
+        <Col span='8'></Col>
+        <Col span='8' className='errorText'>
+          <Alert message={error} type='warning'></Alert>
+        </Col>
+      </Row>
+    ) : (
+      ""
+    );
 
   return (
     <>
@@ -90,47 +106,43 @@ const Login = () => {
         onSubmit={handleSubmit}
         onFinishFailed={onFinishFailed}
         form={form}
-        id="login"
-      >
-
+        id='login'>
+        {error}
         <Row>
-          <Col span="8"></Col>
-          <Col span="8"><p>Please Login with your valid Credentials..</p></Col>
+          <Col span='8'></Col>
+          <Col span='8'>
+            <p>Please Login with your valid Credentials..</p>
+          </Col>
         </Row>
 
         <Form.Item
-          label="Username"
-          name="username"
+          label='Username'
+          name='username'
           value={username}
           onChange={handleUsernameChange}
-          rules={[{ required: true, message: 'Please input your username!' }]}
-        >
+          rules={[{ required: true, message: "Please input your username!" }]}>
           <Input />
-          
         </Form.Item>
 
         <Form.Item
-          label="Password"
-          name="password"
+          label='Password'
+          name='password'
           value={password}
           onChange={handlePasswordChange}
-          rules={[{ required: true, message: 'Please input your password!' }]}
-        >
+          rules={[{ required: true, message: "Please input your password!" }]}>
           <Input.Password />
         </Form.Item>
 
         <Form.Item {...tailLayout}>
-          <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+          <Button type='primary' htmlType='submit' onClick={handleSubmit}>
             Login
-           </Button>
+          </Button>
         </Form.Item>
 
         {errorAlert}
-
       </Form>
     </>
   );
-}
+};
 
-export default Login
-
+export default Login;
