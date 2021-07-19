@@ -3,16 +3,14 @@ import { Form, Input, Row, Col, Button, Alert } from "antd";
 import { useHistory } from "react-router-dom";
 import "../css/Login.css";
 import axios from "axios";
-
 const Login = () => {
   const history = useHistory();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState(false);
   const [form] = Form.useForm();
-
   const handleSubmit = (e) => {
-    setError(true);
+    
     e.preventDefault();
     const obj = { username: username, password: password };
     axios
@@ -22,24 +20,17 @@ const Login = () => {
       })
       .then(
         (result) => {
-          if (Object.keys(result.data).length === 0) {
-            setError(true);
-            console.log(error)
-          } else {
-            console.log("----- result :", result.data);
-            localStorage.setItem("isLoggedIn", "Y");
-            localStorage.setItem("LoggedInUser", "admin");
-            localStorage.setItem("token", result.data.token);
-            history.replace("/userList");
-          }
-   
+          console.log(result);
+          localStorage.setItem("isLoggedIn", "Y");
+          localStorage.setItem("LoggedInUser", "admin");
+          localStorage.setItem("token", result.data.token);
+          history.replace("/userList");
         },
         (error) => {
-          console.log(error);
-          setError("Invalid Credentials");
+          setError(true);
+          console.log("I am here");          
         }
       );
-
     // fetch('http://localhost:3001/login', {
     //   method: 'POST',
     //   body: JSON.stringify(obj),
@@ -59,46 +50,37 @@ const Login = () => {
     //     }
     //   )
   };
-
   const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 8 },
   };
-
   const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
   };
-
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
-
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-
   const onFinishFailed = (errorInfo) => {
     form.scrollToField(errorInfo.errorFields[0].name);
     setError(errorInfo.errorFields[0].name);
     console.log("- errorInfo :", errorInfo);
   };
-
   React.useEffect(() => {
     form.setFieldsValue({ username: "", password: "" });
   }, []);
-
-  const errorAlert =
-    error ? (
-      <Row>
-        <Col span='8'></Col>
-        <Col span='8' className='errorText'>
-          <Alert message={error} type='warning'></Alert>
-        </Col>
-      </Row>
-    ) : (
-      ""
-    );
-
+  const errorAlert = error ? (
+    <Row>
+      <Col span='8'></Col>
+      <Col span='8' className='errorText'>
+        <Alert message={error} type='warning'></Alert>
+      </Col>
+    </Row>
+  ) : (
+    ""
+  );
   return (
     <>
       <Form
@@ -107,14 +89,13 @@ const Login = () => {
         onFinishFailed={onFinishFailed}
         form={form}
         id='login'>
-        {error}
+        {error && <>Jiidd</> }
         <Row>
           <Col span='8'></Col>
           <Col span='8'>
             <p>Please Login with your valid Credentials..</p>
           </Col>
         </Row>
-
         <Form.Item
           label='Username'
           name='username'
@@ -123,7 +104,6 @@ const Login = () => {
           rules={[{ required: true, message: "Please input your username!" }]}>
           <Input />
         </Form.Item>
-
         <Form.Item
           label='Password'
           name='password'
@@ -132,17 +112,14 @@ const Login = () => {
           rules={[{ required: true, message: "Please input your password!" }]}>
           <Input.Password />
         </Form.Item>
-
         <Form.Item {...tailLayout}>
           <Button type='primary' htmlType='submit' onClick={handleSubmit}>
             Login
           </Button>
         </Form.Item>
-
         {errorAlert}
       </Form>
     </>
   );
 };
-
 export default Login;
