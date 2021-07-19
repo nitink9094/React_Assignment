@@ -42,14 +42,6 @@ const User = ({user, deleteUser, updateUser}) =>{
 
  const handleOk = (errorFields) => {
    console.log('---- errorFields :', form.getFieldsError());
-  //form.scrollToField(errorFields[0].name);
-
-    // form.scrollToField((err, values) => {
-    //   if (!err) {
-    //     updateUser(user.id, values);
-    //     closeModal();
-    //   }
-    // });
   };
 
   const closeModal = () => {
@@ -108,7 +100,7 @@ const User = ({user, deleteUser, updateUser}) =>{
           cover={
             <div className="cardHeadImage">
               <img
-                src={`https://avatars.dicebear.com/v2/avataaars/${user.username}.svg?options[mood][]=happy`}
+                src={`https://avatars.dicebear.com/v2/avataaars/${user.name}.svg?options[mood][]=happy`}
                 alt="Avatar"
                 style={{ width: 200, height: 200 }}
               />
