@@ -28,7 +28,7 @@ const Login = () => {
         },
         (error) => {
           setError(true);
-          console.log("I am here");          
+          // console.log("I am here");          
         }
       );
     // fetch('http://localhost:3001/login', {
@@ -89,7 +89,6 @@ const Login = () => {
         onFinishFailed={onFinishFailed}
         form={form}
         id='login'>
-        {error && <>Jiidd</> }
         <Row>
           <Col span='8'></Col>
           <Col span='8'>

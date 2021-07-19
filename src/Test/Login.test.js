@@ -55,25 +55,25 @@ describe("<Login />", () => {
   });
 
   it("renders <Login /> components with button click", () => {
-    // wrapper
-    //   .find('[label="Password"]')
-    //   .simulate("change", { target: { value: "admin" } });
-    // wrapper
-    //   .find('[label="Username"]')
-    //   .simulate("change", { target: { value: "admin" } });
-    // const buttonElement = wrapper.find('[htmlType="submit"]');
-    // expect(buttonElement).toHaveLength(1);
-    // const preventDefault = jest.fn();
-    // const result = {
-    //   data: {
-    //     token: "asdfasfjsdjfk",
-    //   },
-    // };
-    // jest.spyOn(axios, "post");
-    // axios.post.mockImplementationOnce(() => Promise.resolve(result));
-    // buttonElement.simulate("click", { preventDefault });
-    // const loginComponent = shallow(<Login />);
-    // expect(loginComponent.find(<Alert />).length).toBe(0);
+    wrapper
+      .find('[label="Password"]')
+      .simulate("change", { target: { value: "admin" } });
+    wrapper
+      .find('[label="Username"]')
+      .simulate("change", { target: { value: "admin" } });
+    const buttonElement = wrapper.find('[htmlType="submit"]');
+    expect(buttonElement).toHaveLength(1);
+    const preventDefault = jest.fn();
+    const result = {
+      data: {
+        token: "asdfasfjsdjfk",
+      },
+    };
+    jest.spyOn(axios, "post");
+    axios.post.mockImplementationOnce(() => Promise.resolve(result));
+    buttonElement.simulate("click", { preventDefault });
+    const loginComponent = shallow(<Login />);
+    expect(loginComponent.find(<Alert />).length).toBe(0);
   });
 
   it("renders <Login /> components with button click - Error", async() => {
@@ -84,8 +84,7 @@ describe("<Login />", () => {
     jest.spyOn(axios, "post");
     axios.post.mockImplementationOnce(() => Promise.reject(result));
     buttonElement.simulate("click", { preventDefault });
-    await wrapper.update();
-    console.log(wrapper.debug());
+    await wrapper.update();    
     expect(wrapper.find("Alert").length).toBe(1);
   });
 
