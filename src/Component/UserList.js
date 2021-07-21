@@ -12,8 +12,9 @@ const UserList = () => {
   const history = useHistory();
 
   useEffect(() => {
-    setIsLoading(true);
     console.log("I am inside UseEffect");
+    setIsLoading(true);
+    
     if (localStorage.getItem('token')  && localStorage.getItem('token') !== '') {
       axios
         .get("http://localhost:3001/users", {

@@ -21,11 +21,6 @@ const User = ({user, deleteUser, updateUser}) =>{
   const [liked, setLiked] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
 
-  // state = {
-  //   liked: false,
-  //   editModalVisible: false
-  // };
-
  const toggleLiked = () => {
    setLiked(!liked);
   };
@@ -58,21 +53,6 @@ const User = ({user, deleteUser, updateUser}) =>{
       form.setFieldsValue({ user : user  });
     }
   }, [editModalVisible]);
-
-  // componentDidMount() {
-  //   console.log('--------this.formRef.current :', form);
-  //   this.formRef.current.setFieldsValue({
-  //     name: this.props.user.name,
-  //     email: this.props.user.email,
-  //     phone: this.props.user.phone,
-  //     website: this.props.user.website,
-  //   });
-  // }
-  
-  //render() {
-    //const { user, deleteUser } = this.props;
-    //const { getFieldDecorator } = this.props.form;
-    //const { liked, editModalVisible } = this.state;
 
     return (
       <Fragment>

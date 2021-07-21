@@ -4,9 +4,9 @@ import {Alert } from "antd";
 import Login from "../Component/Login";
 import axios from "axios";
 
-import Adapter from "enzyme-adapter-react-17-updated";
+//import Adapter from "enzyme-adapter-react-17-updated";
 
-Enzyme.configure({ adapter: new Adapter() });
+//Enzyme.configure({ adapter: new Adapter() });
 
 jest.mock("axios");
 
