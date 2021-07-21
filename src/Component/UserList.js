@@ -3,6 +3,7 @@ import { Row, Col, Alert } from 'antd';
 import User from './Users';
 import { useHistory } from "react-router-dom";
 import Header from './Header';
+import axios from "axios";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -14,25 +15,22 @@ const UserList = () => {
     setIsLoading(true);
     console.log("I am inside UseEffect");
     if (localStorage.getItem('token')  && localStorage.getItem('token') !== '') {
-      
-        fetch('https://hbauth.herokuapp.com/users', { 
-          method: 'GET',
+      axios
+        .get("http://localhost:3001/users", {
           headers : {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            }
-          })
-          .then(res => res.json())
-          .then(
-            (result) => {
-              console.log('--------- uuser result :', result);
-              setUsers(result);
-              setIsLoading(false);
-            },
-            (error) => {
-              console.log(error);
-              setError('Not valid request')
-            }
-          )
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          }
+        })
+        .then((result) => {
+            console.log('--------- uuser result :', result.data);
+            setUsers(result.data);
+            setIsLoading(false);
+          },          
+        )
+        .catch((error) => {
+          console.log(error);
+          setError('Not valid request')
+        })
     }
     else {
       history.push('/Login');
