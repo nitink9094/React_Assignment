@@ -12,8 +12,9 @@ const UserList = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    console.log("I am inside UseEffect");
     if (localStorage.getItem('token')  && localStorage.getItem('token') !== '') {
-      setTimeout(() => {
+      
         fetch('https://hbauth.herokuapp.com/users', { 
           method: 'GET',
           headers : {
@@ -23,7 +24,7 @@ const UserList = () => {
           .then(res => res.json())
           .then(
             (result) => {
-              console.log('--------- result :', result);
+              console.log('--------- uuser result :', result);
               setUsers(result);
               setIsLoading(false);
             },
@@ -32,7 +33,6 @@ const UserList = () => {
               setError('Not valid request')
             }
           )
-      }, 2000);
     }
     else {
       history.push('/Login');
