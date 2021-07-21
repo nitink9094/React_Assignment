@@ -75,7 +75,7 @@ describe("<Login />", () => {
     expect(loginComponent.find(<Alert />).length).toBe(0);
   });
 
-  it("renders <Login /> components with button click - Error", () => {
+  it("renders <Login /> components with button click - Error", async() => {
     const buttonElement = wrapper.find('[htmlType="submit"]');
     expect(buttonElement).toHaveLength(1);
     const preventDefault = jest.fn();
@@ -83,7 +83,7 @@ describe("<Login />", () => {
     jest.spyOn(axios, "post");
     axios.post.mockImplementationOnce(() => Promise.reject(result));
     buttonElement.simulate("click", { preventDefault });
-      console.log(wrapper.debug()); 
+    await wrapper.update();    
     expect(wrapper.find("Alert").length).toBe(1);
   });
 
