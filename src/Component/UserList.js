@@ -11,7 +11,7 @@ const UserList = () => {
   const [error, setError] = useState();
   const history = useHistory();
 
-  useEffect(() => {
+  React.useEffect(() => {
     console.log("I am inside UseEffect");
     setIsLoading(true);
     
