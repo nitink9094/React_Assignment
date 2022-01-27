@@ -12,7 +12,7 @@ class App extends Component {
     super(props);
     this.state = { loggedIn: false };
   }
-
+//Commit -1 
 componentDidMount() {
   this.setState({ loggedIn: localStorage.getItem('isLoggedIn') ? true : false });
 }
