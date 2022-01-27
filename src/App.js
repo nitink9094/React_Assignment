@@ -14,6 +14,7 @@ class App extends Component {
   }
 //Commit -1 
 //Commit -2
+//Commit -3
 componentDidMount() {
   this.setState({ loggedIn: localStorage.getItem('isLoggedIn') ? true : false });
 }
